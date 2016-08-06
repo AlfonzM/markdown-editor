@@ -1,0 +1,16 @@
+{
+  "name": "A Markdown Editor",
+  "productName": "A Markdown Editor",
+  "description": "An awesome markdown editor",
+  "version": "0.0.0",
+  "author": "Alfonz Montelibano <m.alfonz@gmail.com>",
+  "copyright": "© 2016, Alfonz Montelibano",
+  "license": "MIT",
+  "main": "background.js",
+  "dependencies": {
+    "fs-jetpack": "^0.9.0",
+    "jquery": "^3.1.0",
+    "jsdom": "^9.4.1",
+    "marked": "^0.3.6"
+  }
+}

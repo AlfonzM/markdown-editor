@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>A Markdown Editor</title>
+
+    <link href="stylesheets/main.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+    
+    <script src="helpers/context_menu.js"></script>
+    <script src="helpers/external_links.js"></script>
+
+    <script src="app.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- <div id="editor"> -->
+            <textarea id="editor"># Title
+
+Hi, this is a markdown editor.
+
+Check out this [Markdown cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for formatting help.
+
+Let's throw in some images too for good measure.
+
+![](http://placehold.it/300x150)
+
+Omg, a wild list appeared!
+- I'm a list item woohoo
+- Me too!
+- I have _italics_ and __bold__ texts
+
+And here's some code:
+
+```html
+<div class="yey">
+    omg
+</div>
+```
+
+Now I'll leave you with my favorite quote:
+
+> Go make some awesome shit with this markdown editor.
+> 
+> _— Mark Twain_</textarea>
+        <!-- </div> -->
+        <div id="output" class="markdown-body">
+            
+        </div>
+    </div>
+
+</body>
+</html>
