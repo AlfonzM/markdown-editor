@@ -3,12 +3,14 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 
-import { app, Menu } from 'electron';
+import { app, ipcMain, dialog, Menu } from 'electron';
 import { devMenuTemplate } from './helpers/dev_menu_template';
 import { editMenuTemplate } from './helpers/edit_menu_template';
 import { fileMenuTemplate } from './helpers/file_menu_template';
 import { mainMenuTemplate } from './helpers/main_menu_template';
 import createWindow from './helpers/window';
+import fs from 'fs';
+
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
@@ -28,12 +30,12 @@ var setApplicationMenu = function () {
 };
 
 app.on('ready', function () {
-    setApplicationMenu();
-
     var mainWindow = createWindow('main', {
         width: 1000,
         height: 800,
     });
+
+    setApplicationMenu();
 
     mainWindow.loadURL('file://' + __dirname + '/app.html');
 
@@ -45,3 +47,19 @@ app.on('ready', function () {
 app.on('window-all-closed', function () {
     app.quit();
 });
+
+
+
+// IPC Listeners
+
+ipcMain.on('saveFile', (event, data) => {
+    dialog.showSaveDialog(
+        {
+            defaultPath: 'Untitled.md',
+            function(fileName) {
+            if (fileName === undefined) return;
+            fs.writeFile(fileName, data, function (err) {   
+            })
+        }
+    })  
+})

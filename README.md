@@ -1,36 +1,33 @@
 Markdown Editor
 ===============
 
-"Yet another Markdown editor made in Electron?" ¯\_(ツ)_/¯
+## Overview
 
-# Installation
+__What's this?__
+
+A Markdown editor app made with Electron.
+
+__You mean _another_ Markdown edtior app made with Electron?__
+
+...yes.
+
+__Why though?__
+
+¯\\\_(ツ)_/¯
+
+## Installation
+
+__Development__
 
 ```
+https://github.com/AlfonzM/markdown-editor.git
 cd markdown-editor
 npm install
 npm start
 ```
 
-# License
+__Release__
 
-The MIT License (MIT)
-
-Copyright (c) 2015-2016 Jakub Szwacz
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+```
+npm release
+```

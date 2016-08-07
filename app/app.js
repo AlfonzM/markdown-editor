@@ -23,20 +23,26 @@ $(document).ready(function (){
 		}
 	});
 
-	$('#output').html(marked($('#editor').val()));
+	refreshOutput();
 	
 	$('#editor').bind('input propertychange', function(){
-		$('#output').html(marked($('#editor').val()));
+		refreshOutput();
 		console.log(marked($('#editor').val()));
 	});
 });
 
-var ipc = require('electron').ipcMain;
+function refreshOutput(){
+	$('#output').html(marked($('#editor').val()));
+}
 
-ipc.on('saveFile', function(event){
-	dialog.showSaveDialog( function(fileName) {
-	    if (fileName === undefined) return;
-	    fs.writeFile(fileName, $("#editor").val(), function (err) {   
-	    })
-	})
+var ipc = require('electron').ipcRenderer;
+
+ipc.on('getEditorContents', function(event){
+	console.log('as')
+	ipc.send('saveFile', $("#editor").val())
+});
+
+ipc.on('loadEditorContents', function(event, data){
+	$("#editor").val(data)
+	refreshOutput();
 });
