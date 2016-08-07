@@ -56,7 +56,8 @@ __The following macOS Notes.app features:__
 - [ ] New note
 - [ ] Delete note
 - [ ] Auto save on type (no need to Save/Open files)
+- [ ] Organize notes into tags
+- [ ] Add tags to notes
 - [ ] Open where the user left off
 - [ ] Navigate files in sidebar
 - [ ] Toggle show sidebar
-- [ ] Organize files into folders/categories/tags

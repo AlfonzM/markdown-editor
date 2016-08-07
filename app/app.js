@@ -3,51 +3,104 @@
 
 // Use new ES6 modules syntax for everything.
 import os from 'os'; // native node.js module
-import { remote, dialog, shell } from 'electron'; // native electron module
+import { ipcRenderer, remote, dialog, shell } from 'electron'; // native electron module
 import jetpack from 'fs-jetpack'; // module loaded from npm
 import env from './env';
 import marked from 'marked';
 import $ from 'jquery';
+import low from 'lowdb';
+import uuid from 'node-uuid';
 
+const db = low('db')
 var app = remote.app;
 var appDir = jetpack.cwd(app.getAppPath());
-
-// Holy crap! This is browser window with HTML and stuff, but I can read
-// here files like it is node.js! Welcome to Electron world :)
-// console.log('The author of this app is:', appDir.read('package.json', 'json').author);
+var $editor, $output;
+var notes = [];
+var currentNote;
 
 $(document).ready(function (){
+	$editor = $("#editor");
+	$output = $("#output");
+
 	marked.setOptions({
 		highlight: function (code) {
 			return require('highlight.js').highlightAuto(code).value;
 		}
 	});
 
-	refreshOutput();
-	
-	$('#editor').bind('input propertychange', function(){
+	// console.log(db.setState({})) // CLEAR DB
+
+	fetchNotesFromDB()
+
+	// Input change handler
+	$editor.bind('input propertychange', function(){
 		refreshOutput();
-		console.log(marked($('#editor').val()));
 	});
 
-	$('#output a').bind('click', function(e){
+	// Force link clicks to open in default OS browser
+	$('#a').bind('click', function(e){
 		e.preventDefault();
 		shell.openExternal($(this).attr('href'));
 	});
+
+	// Toggle sidebar button
+	$('#toggle-sidebar').bind('click', function(e){
+		$('#sidebar').animate({"margin-left":'-=200'}, 200, 'swing');
+	});
+
+	// Select note from sidebar
+	$('#sidebar ul.sidebar-notes li.sidebar-note').on('click', function(e){
+		selectANoteFromTheSidebar($(this).attr('id'))
+	})
 });
 
-function refreshOutput(){
-	$('#output').html(marked($('#editor').val()));
+function fetchNotesFromDB(){
+	db.defaults({'notes': []}).value()
+
+	notes = db.get('notes').value()
+
+	if(notes.length == 0){
+		console.log("OMG")
+		db.get('notes').push({'id': uuid.v4(), 'body':'# New Note qwjeqwjlkeqwlk', 'updated_at': new Date().getTime()}).value()
+		db.get('notes').push({'id': uuid.v4(), 'body':'# hello!\n\nomg this is really awesome', 'updated_at': new Date().getTime()}).value()
+		db.get('notes').push({'id': uuid.v4(), 'body':'aw yiss', 'updated_at': new Date().getTime()}).value()
+	} else {
+		console.log(notes)
+	}
+
+	addNotesToSidebar()
+	displayNote(notes[0])
 }
 
-var ipc = require('electron').ipcRenderer;
+function displayNote(note){
+	currentNote = note;
+	$editor.val(note.body);
+	refreshOutput();
+}
 
-ipc.on('getEditorContents', function(event){
-	console.log('as')
-	ipc.send('saveFile', $("#editor").val())
+function addNotesToSidebar(){
+	notes.map(function(note){
+		$('ul.sidebar-notes').prepend('<li id="' + note.id + '" class="sidebar-note"><p><b>' + note.body.substr(0,15) + '...</b></p><p>' + note.updated_at + '</p></li>');
+	});
+}
+
+function selectANoteFromTheSidebar(id){
+	var note = notes.find(function (o){
+		{ return o.id == id }
+	})
+
+	displayNote(note)
+}
+
+function refreshOutput(){
+	$output.html(marked($editor.val()));
+}
+
+ipcRenderer.on('getEditorContents', function(event){
+	ipcRenderer.send('saveFile', $editor.val())
 });
 
-ipc.on('loadEditorContents', function(event, data){
-	$("#editor").val(data)
+ipcRenderer.on('loadEditorContents', function(event, data){
+	$editor.val(data)
 	refreshOutput();
 });

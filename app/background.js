@@ -10,13 +10,14 @@ import { fileMenuTemplate } from './helpers/file_menu_template';
 import { mainMenuTemplate } from './helpers/main_menu_template';
 import createWindow from './helpers/window';
 import fs from 'fs';
-
+// import low from 'lowdb'
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 import env from './env';
 
 var mainWindow;
+// const db = low('db')
 
 var setApplicationMenu = function () {
     var menus = [];
@@ -53,12 +54,13 @@ app.on('window-all-closed', function () {
 // IPC Listeners
 
 ipcMain.on('saveFile', (event, data) => {
-    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(),
-        {
-            defaultPath: 'Untitled.md',
-            function(fileName) {
+    console.log('save this: ' + data)
+    dialog.showSaveDialog({
+        function(fileName) {
+            console.log('aqws');
             if (fileName === undefined) return;
             fs.writeFile(fileName, data, function (err) {   
+                console.log(err)
             })
         }
     })  
