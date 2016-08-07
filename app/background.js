@@ -54,12 +54,9 @@ app.on('window-all-closed', function () {
 // IPC Listeners
 
 ipcMain.on('saveFile', (event, data) => {
-    console.log('save this: ' + data)
-    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(), {
-        defaultPath: 'Untitled.md',
-        filters: ['md', 'txt']
-    },
+    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(),
     {
+        defaultPath: 'Untitled.md',
         function(fileName) {
             console.log('aqws');
             if (fileName === undefined) return;

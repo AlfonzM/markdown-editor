@@ -100,9 +100,10 @@ function selectANoteFromTheSidebar($noteElement){
 
 function saveNote(){
 	currentNote.body = $editor.val()
+	db.get('notes').find({id:currentNote.id}).assign({
 		body: currentNote.body,
 		updated_at: new Date().getTime()
-	}).value())
+	}).value()
 }
 
 function refreshOutput(){
