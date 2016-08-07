@@ -20,7 +20,7 @@ __Why though?__
 __Development__
 
 ```
-https://github.com/AlfonzM/markdown-editor.git
+git clone https://github.com/AlfonzM/markdown-editor.git
 cd markdown-editor
 npm install
 npm start
@@ -31,3 +31,31 @@ __Release__
 ```
 npm release
 ```
+
+## TODO
+
+__Files__
+- [x] Open file
+- [x] Save As file
+- [ ] Save edited file
+- [ ] Close without saving prompt
+
+__Editor__
+- [ ] Insert Markdown menu item
+- [ ] Insert image / Drag image from Finder
+- [ ] Auto scroll Preview window to where editor window cursor is
+- [ ] Toggle Show/Hide Preview window
+- [ ] Resize Preview window (draggable separator)
+
+__Format__
+- [ ] Use external Markdown CSS theme
+
+__The following macOS Notes.app features:__
+
+- [ ] New note
+- [ ] Delete note
+- [ ] Auto save on type (no need to Save/Open files)
+- [ ] Open where the user left off
+- [ ] Navigate files in sidebar
+- [ ] Toggle show sidebar
+- [ ] Organize files into folders/categories/tags
