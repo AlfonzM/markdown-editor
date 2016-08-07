@@ -34,6 +34,7 @@ $(document).ready(function (){
 
 	// Input change handler
 	$editor.bind('input propertychange', function(){
+		saveNote()
 		refreshOutput();
 	});
 
@@ -50,7 +51,7 @@ $(document).ready(function (){
 
 	// Select note from sidebar
 	$('#sidebar ul.sidebar-notes li.sidebar-note').on('click', function(e){
-		selectANoteFromTheSidebar($(this).attr('id'))
+		selectANoteFromTheSidebar($(this))
 	})
 });
 
@@ -69,7 +70,7 @@ function fetchNotesFromDB(){
 	}
 
 	addNotesToSidebar()
-	displayNote(notes[0])
+	selectANoteFromTheSidebar($('#sidebar ul.sidebar-notes li.sidebar-note:first'))
 }
 
 function displayNote(note){
@@ -84,12 +85,24 @@ function addNotesToSidebar(){
 	});
 }
 
-function selectANoteFromTheSidebar(id){
+function selectANoteFromTheSidebar($noteElement){
+	var id = $noteElement.attr('id')
+
 	var note = notes.find(function (o){
 		{ return o.id == id }
 	})
 
+	$('.active').removeClass('active')
+	$noteElement.addClass('active')
+
 	displayNote(note)
+}
+
+function saveNote(){
+	currentNote.body = $editor.val()
+		body: currentNote.body,
+		updated_at: new Date().getTime()
+	}).value())
 }
 
 function refreshOutput(){

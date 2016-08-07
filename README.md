@@ -34,30 +34,28 @@ npm release
 
 ## TODO
 
-__Files__
-- [x] Open file
-- [x] Save As file
-- [ ] Save edited file
-- [ ] Close without saving prompt
+__Notes__
+- [ ] New note
+- [ ] Delete note
+- [ ] Open file and add to list (import)
+- [ ] Save As file (export)
+- [ ] Add tags to notes
 
 __Editor__
+- [x] Auto save on type (no need to Save/Open files)
+- [x] Open where the user left off
 - [ ] Insert Markdown menu item
 - [ ] Insert image / Drag image from Finder
 - [ ] Auto scroll Preview window to where editor window cursor is
 - [ ] Toggle Show/Hide Preview window
 - [ ] Resize Preview window (draggable separator)
-- [ ] Edit editor Font (font-size, font-family, line-height)
+- [ ] GitHub checklist markdown
+
+__Sidebar__
+- [x] Navigate notes in sidebar
+- [ ] Toggle show sidebar
+- [ ] View notes by tags in sidebar
 
 __Format__
 - [ ] Use external Markdown CSS theme
-
-__The following macOS Notes.app features:__
-
-- [ ] New note
-- [ ] Delete note
-- [ ] Auto save on type (no need to Save/Open files)
-- [ ] Organize notes into tags
-- [ ] Add tags to notes
-- [ ] Open where the user left off
-- [ ] Navigate files in sidebar
-- [ ] Toggle show sidebar
+- [ ] Edit editor Font (font-size, font-family, line-height)

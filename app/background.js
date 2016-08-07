@@ -55,7 +55,11 @@ app.on('window-all-closed', function () {
 
 ipcMain.on('saveFile', (event, data) => {
     console.log('save this: ' + data)
-    dialog.showSaveDialog({
+    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(), {
+        defaultPath: 'Untitled.md',
+        filters: ['md', 'txt']
+    },
+    {
         function(fileName) {
             console.log('aqws');
             if (fileName === undefined) return;
