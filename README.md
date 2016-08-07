@@ -46,6 +46,7 @@ __Editor__
 - [ ] Auto scroll Preview window to where editor window cursor is
 - [ ] Toggle Show/Hide Preview window
 - [ ] Resize Preview window (draggable separator)
+- [ ] Edit editor Font (font-size, font-family, line-height)
 
 __Format__
 - [ ] Use external Markdown CSS theme

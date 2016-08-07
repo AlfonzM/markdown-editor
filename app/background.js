@@ -3,7 +3,7 @@
 // It doesn't have any windows which you can see on screen, but we can open
 // window from here.
 
-import { app, ipcMain, dialog, Menu } from 'electron';
+import { app, ipcMain, dialog, Menu, BrowserWindow } from 'electron';
 import { devMenuTemplate } from './helpers/dev_menu_template';
 import { editMenuTemplate } from './helpers/edit_menu_template';
 import { fileMenuTemplate } from './helpers/file_menu_template';
@@ -53,7 +53,7 @@ app.on('window-all-closed', function () {
 // IPC Listeners
 
 ipcMain.on('saveFile', (event, data) => {
-    dialog.showSaveDialog(
+    dialog.showSaveDialog(BrowserWindow.getFocusedWindow(),
         {
             defaultPath: 'Untitled.md',
             function(fileName) {

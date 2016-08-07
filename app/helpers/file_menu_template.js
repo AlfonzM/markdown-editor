@@ -7,14 +7,13 @@ export var fileMenuTemplate = {
     submenu: [
     { label: "New note", accelerator: "CmdOrCtrl+N", click: function() { console.log('new') } },
     { label: "Open", accelerator: "CmdOrCtrl+O", click: function() { 
-        var filename = dialog.showOpenDialog({
+        var filename = dialog.showOpenDialog(BrowserWindow.getFocusedWindow(),
+        {
             properties: ['openFile'],
             filters: [{name: 'Text', extensions: ['txt', 'md']}]
         })
 
-        console.log(filename)
-
-        if(!filename.length) return;
+        if(!filename) return;
 
         fs.readFile(filename[0], 'utf8', function (err, data) {
             if(err) {

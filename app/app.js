@@ -3,7 +3,7 @@
 
 // Use new ES6 modules syntax for everything.
 import os from 'os'; // native node.js module
-import { remote, dialog } from 'electron'; // native electron module
+import { remote, dialog, shell } from 'electron'; // native electron module
 import jetpack from 'fs-jetpack'; // module loaded from npm
 import env from './env';
 import marked from 'marked';
@@ -28,6 +28,11 @@ $(document).ready(function (){
 	$('#editor').bind('input propertychange', function(){
 		refreshOutput();
 		console.log(marked($('#editor').val()));
+	});
+
+	$('#output a').bind('click', function(e){
+		e.preventDefault();
+		shell.openExternal($(this).attr('href'));
 	});
 });
 
