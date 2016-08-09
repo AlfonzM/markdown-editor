@@ -1,5 +1,4 @@
 import fs from 'fs';
-import $ from 'jquery';
 import { dialog, BrowserWindow } from 'electron';
 
 export var fileMenuTemplate = {

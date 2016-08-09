@@ -14,12 +14,12 @@ import uuid from 'node-uuid';
 const db = low('db')
 var app = remote.app;
 var appDir = jetpack.cwd(app.getAppPath());
-var $editor, $output;
+var $editorTextarea, $output;
 var notes = [];
 var currentNote;
 
 $(document).ready(function (){
-	$editor = $("#editor");
+	$editorTextarea = $("#editor textarea");
 	$output = $("#output");
 
 	marked.setOptions({
@@ -33,7 +33,7 @@ $(document).ready(function (){
 	fetchNotesFromDB()
 
 	// Input change handler
-	$editor.bind('input propertychange', function(){
+	$editorTextarea.bind('input propertychange', function(){
 		saveNote()
 		refreshOutput();
 	});
@@ -44,14 +44,14 @@ $(document).ready(function (){
 		shell.openExternal($(this).attr('href'));
 	});
 
-	// Toggle sidebar button
-	$('#toggle-sidebar').bind('click', function(e){
-		$('#sidebar').animate({"margin-left":'-=200'}, 200, 'swing');
+	// Toggle notelist button
+	$('#toggle-note-list').bind('click', function(e){
+		$('#note-list').animate({"margin-left":"-=250"}, 200, 'swing');
 	});
 
-	// Select note from sidebar
-	$('#sidebar ul.sidebar-notes li.sidebar-note').on('click', function(e){
-		selectANoteFromTheSidebar($(this))
+	// Select note from note list
+	$('#note-list ul li').on('click', function(e){
+		selectANoteFromNoteList($(this))
 	})
 });
 
@@ -61,7 +61,6 @@ function fetchNotesFromDB(){
 	notes = db.get('notes').value()
 
 	if(notes.length == 0){
-		console.log("OMG")
 		db.get('notes').push({'id': uuid.v4(), 'body':'# New Note qwjeqwjlkeqwlk', 'updated_at': new Date().getTime()}).value()
 		db.get('notes').push({'id': uuid.v4(), 'body':'# hello!\n\nomg this is really awesome', 'updated_at': new Date().getTime()}).value()
 		db.get('notes').push({'id': uuid.v4(), 'body':'aw yiss', 'updated_at': new Date().getTime()}).value()
@@ -69,23 +68,24 @@ function fetchNotesFromDB(){
 		console.log(notes)
 	}
 
-	addNotesToSidebar()
-	selectANoteFromTheSidebar($('#sidebar ul.sidebar-notes li.sidebar-note:first'))
+	addNotesToNoteList()
+	selectANoteFromNoteList($('#note-list ul li:first'))
 }
 
 function displayNote(note){
 	currentNote = note;
-	$editor.val(note.body);
+	console.log(note)
+	$editorTextarea.val(note.body);
 	refreshOutput();
 }
 
-function addNotesToSidebar(){
+function addNotesToNoteList(){
 	notes.map(function(note){
-		$('ul.sidebar-notes').prepend('<li id="' + note.id + '" class="sidebar-note"><p><b>' + note.body.substr(0,15) + '...</b></p><p>' + note.updated_at + '</p></li>');
+		$('#note-list ul').prepend('<li id=' + note.id + '><h1>' + note.body.substr(0,15) + '...</h1><span>' + note.updated_at + '</span></li>');
 	});
 }
 
-function selectANoteFromTheSidebar($noteElement){
+function selectANoteFromNoteList($noteElement){
 	var id = $noteElement.attr('id')
 
 	var note = notes.find(function (o){
@@ -99,7 +99,7 @@ function selectANoteFromTheSidebar($noteElement){
 }
 
 function saveNote(){
-	currentNote.body = $editor.val()
+	currentNote.body = $editorTextarea.val()
 	db.get('notes').find({id:currentNote.id}).assign({
 		body: currentNote.body,
 		updated_at: new Date().getTime()
@@ -107,14 +107,19 @@ function saveNote(){
 }
 
 function refreshOutput(){
-	$output.html(marked($editor.val()));
+	$output.html(marked($editorTextarea.val()));
 }
 
 ipcRenderer.on('getEditorContents', function(event){
-	ipcRenderer.send('saveFile', $editor.val())
+	ipcRenderer.send('saveFile', $editorTextarea.val())
 });
 
 ipcRenderer.on('loadEditorContents', function(event, data){
-	$editor.val(data)
+	$editorTextarea.val(data)
 	refreshOutput();
+});
+
+ipcRenderer.on('togglePreview', function(event){
+	console.log('toggle')
+	$output.toggle()
 });

@@ -8,6 +8,7 @@ import { devMenuTemplate } from './helpers/dev_menu_template';
 import { editMenuTemplate } from './helpers/edit_menu_template';
 import { fileMenuTemplate } from './helpers/file_menu_template';
 import { mainMenuTemplate } from './helpers/main_menu_template';
+import { viewMenuTemplate } from './helpers/view_menu_template';
 import createWindow from './helpers/window';
 import fs from 'fs';
 // import low from 'lowdb'
@@ -24,6 +25,7 @@ var setApplicationMenu = function () {
     menus.push(mainMenuTemplate);
     menus.push(fileMenuTemplate);
     menus.push(editMenuTemplate);
+    menus.push(viewMenuTemplate);
     if (env.name !== 'production') {
         menus.push(devMenuTemplate);
     }
@@ -33,7 +35,9 @@ var setApplicationMenu = function () {
 app.on('ready', function () {
     var mainWindow = createWindow('main', {
         width: 1000,
+        transparent: true,
         height: 800,
+        titleBarStyle: 'hidden',
     });
 
     setApplicationMenu();
@@ -58,7 +62,6 @@ ipcMain.on('saveFile', (event, data) => {
     {
         defaultPath: 'Untitled.md',
         function(fileName) {
-            console.log('aqws');
             if (fileName === undefined) return;
             fs.writeFile(fileName, data, function (err) {   
                 console.log(err)
