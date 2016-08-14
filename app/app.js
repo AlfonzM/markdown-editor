@@ -10,16 +10,24 @@ import marked from 'marked';
 import $ from 'jquery';
 import low from 'lowdb';
 import uuid from 'node-uuid';
+// import behave from './lib/behave.js';
 
-const db = low('db')
+var db = low(__dirname + '/notesdb.json', {storage:require('lowdb/lib/file-async')})
 var app = remote.app;
 var appDir = jetpack.cwd(app.getAppPath());
 var $editorTextarea, $output;
 var notes = [];
 var currentNote;
+var editor;
 
 $(document).ready(function (){
-	$editorTextarea = $("#editor textarea");
+	// editor = new Behave({
+	//     textarea: document.getElementById('editor')
+	// });
+
+	initializeAceEditor();
+
+	$editorTextarea = $("#editor");
 	$output = $("#output");
 
 	marked.setOptions({
@@ -34,7 +42,7 @@ $(document).ready(function (){
 
 	// Input change handler
 	$editorTextarea.bind('input propertychange', function(){
-		saveNote()
+		saveNote();
 		refreshOutput();
 	});
 
@@ -55,6 +63,31 @@ $(document).ready(function (){
 	})
 });
 
+function initializeAceEditor() {
+	editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/markdown");
+    editor.setOptions({
+        showGutter: false,
+        fontFamily: 'Menlo',
+        showLineNumbers: false,
+        fontSize: '9pt',
+        wrap: true,
+        showPrintMargin: false
+    });
+
+    editor.container.style.lineHeight = 1.5;
+    editor.container.style.padding = '20px';
+
+    // editor.renderer.setPadding(30);
+    // editor.renderer.setScrollMargin(30,30,0,-30);
+
+    editor.on('change', function(){
+		saveNote();
+		refreshOutput();
+    });
+}
+
 function fetchNotesFromDB(){
 	db.defaults({'notes': []}).value()
 
@@ -74,8 +107,7 @@ function fetchNotesFromDB(){
 
 function displayNote(note){
 	currentNote = note;
-	console.log(note)
-	$editorTextarea.val(note.body);
+	editor.setValue(note.body);
 	refreshOutput();
 }
 
@@ -99,7 +131,7 @@ function selectANoteFromNoteList($noteElement){
 }
 
 function saveNote(){
-	currentNote.body = $editorTextarea.val()
+	currentNote.body = editor.getValue()
 	db.get('notes').find({id:currentNote.id}).assign({
 		body: currentNote.body,
 		updated_at: new Date().getTime()
@@ -107,7 +139,8 @@ function saveNote(){
 }
 
 function refreshOutput(){
-	$output.html(marked($editorTextarea.val()));
+	$output.html(marked(editor.getValue()));
+	// $output.html(marked($editorTextarea.val()));
 }
 
 ipcRenderer.on('getEditorContents', function(event){
@@ -116,10 +149,16 @@ ipcRenderer.on('getEditorContents', function(event){
 
 ipcRenderer.on('loadEditorContents', function(event, data){
 	$editorTextarea.val(data)
-	refreshOutput();
+	refreshOutput()
 });
 
 ipcRenderer.on('togglePreview', function(event){
-	console.log('toggle')
 	$output.toggle()
+	editor.resize(true)
+	// $output.remove()
+});
+
+ipcRenderer.on('test', function(event, data){
+	console.log('test')
+	console.log(data)
 });

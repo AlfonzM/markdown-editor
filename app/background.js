@@ -11,14 +11,14 @@ import { mainMenuTemplate } from './helpers/main_menu_template';
 import { viewMenuTemplate } from './helpers/view_menu_template';
 import createWindow from './helpers/window';
 import fs from 'fs';
-// import low from 'lowdb'
+import low from 'lowdb'
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 import env from './env';
 
 var mainWindow;
-// const db = low('db')
+// const db = low(__dirname + '/db.json')
 
 var setApplicationMenu = function () {
     var menus = [];
@@ -26,16 +26,16 @@ var setApplicationMenu = function () {
     menus.push(fileMenuTemplate);
     menus.push(editMenuTemplate);
     menus.push(viewMenuTemplate);
-    if (env.name !== 'production') {
+    // if (env.name !== 'production') {
         menus.push(devMenuTemplate);
-    }
+    // }
     Menu.setApplicationMenu(Menu.buildFromTemplate(menus));
 };
 
 app.on('ready', function () {
-    var mainWindow = createWindow('main', {
+    mainWindow = createWindow('main', {
         width: 1000,
-        transparent: true,
+        // transparent: true,
         height: 800,
         titleBarStyle: 'hidden',
     });
@@ -47,6 +47,12 @@ app.on('ready', function () {
     if (env.name !== 'production') {
         // mainWindow.openDevTools();
     }
+
+    // db.defaults({'notes': []}).value()
+
+    // var notes = db.get('notes').value()
+    // console.log(notes)
+    // mainWindow.webContents.send('test', notes)
 });
 
 app.on('window-all-closed', function () {

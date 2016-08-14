@@ -1,6 +1,8 @@
 Markdown Editor
 ===============
 
+__UPDATE (8-14-2016):__ The initial project this repo was intended for has moved to [https://github.com/AlfonzM/md-editor](https://github.com/AlfonzM/md-editor), and is being continued as a Note-taking app with more features. This repo will be continued as a plain standalone Markdown Editor app.
+
 ## Overview
 
 __What's this?__
@@ -31,31 +33,3 @@ __Release__
 ```
 npm release
 ```
-
-## TODO
-
-__Notes__
-- [ ] New note
-- [ ] Delete note
-- [ ] Open file and add to list (import)
-- [ ] Save As file (export)
-- [ ] Add tags to notes
-
-__Editor__
-- [x] Auto save on type (no need to Save/Open files)
-- [x] Open where the user left off
-- [ ] Insert Markdown menu item
-- [ ] Insert image / Drag image from Finder
-- [ ] Auto scroll Preview window to where editor window cursor is
-- [ ] Toggle Show/Hide Preview window
-- [ ] Resize Preview window (draggable separator)
-- [ ] GitHub checklist markdown
-
-__Sidebar__
-- [x] Navigate notes in sidebar
-- [ ] Toggle show sidebar
-- [ ] View notes by tags in sidebar
-
-__Format__
-- [ ] Use external Markdown CSS theme
-- [ ] Edit editor Font (font-size, font-family, line-height)

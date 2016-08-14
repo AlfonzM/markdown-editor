@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { dialog, BrowserWindow } from 'electron';
+import low from 'lowdb';
 
 export var fileMenuTemplate = {
     label: 'File',
@@ -26,6 +27,12 @@ export var fileMenuTemplate = {
         });
     }},
     { label: "Save", accelerator: "CmdOrCtrl+S", click: function() { 
+        const db = low(__dirname + '/notesdb123')
+
+        db.defaults({'notes': []}).value()
+        var notes = db.get('notes').value()
+
+        BrowserWindow.getFocusedWindow().webContents.send('test', notes)
         BrowserWindow.getFocusedWindow().webContents.send('getEditorContents')
     }},
     ]

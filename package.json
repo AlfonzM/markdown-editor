@@ -52,5 +52,8 @@
     "start": "gulp start",
     "pretest": "gulp build --env=test",
     "test": "electron-mocha build --renderer"
+  },
+  "dependencies": {
+    "ace-builds": "^1.2.2"
   }
 }
